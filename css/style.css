@@ -357,8 +357,10 @@ html, body {
     display: grid;
     /* grid-template-columns set dynamically by JavaScript based on level */
     gap: 6px;
-    max-width: 650px;
+    width: 90vw; /* Mobile-first: Use 90% of viewport width */
+    max-width: 500px; /* Cap size on large screens */
     aspect-ratio: 1;
+    margin: 20px auto; /* Center the grid */
 }
 
 .letter-cell {
@@ -376,6 +378,9 @@ html, body {
     user-select: none;
     position: relative;
     backdrop-filter: blur(5px);
+    /* Mobile-first responsive sizing */
+    width: var(--cell-size, 50px);
+    height: var(--cell-size, 50px);
 }
 
 .letter-cell:hover {
