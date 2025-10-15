@@ -544,28 +544,6 @@ html, body {
     gap: 12px;
 }
 
-/* Mobile override - force row layout */
-@media (max-width: 768px) {
-    .game-controls {
-        flex-direction: row !important;
-        justify-content: center !important;
-        align-items: stretch !important;
-        gap: 8px !important;
-        padding: 8px 6px !important;
-    }
-    
-    .game-controls .btn {
-        flex: 1 !important;
-        min-width: 0 !important;
-        max-width: calc(50% - 4px) !important;
-        font-size: 0.75rem !important;
-        padding: 10px 6px !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-    }
-}
-
 .btn {
     padding: 14px 20px;
     border: none;
@@ -1162,7 +1140,7 @@ html, body {
         width: 100%;
         box-sizing: border-box;
         margin-top: 10px;
-        justify-content: space-between;
+        justify-content: center;
         align-items: stretch;
     }
     
@@ -1182,6 +1160,7 @@ html, body {
         justify-content: center;
         text-align: center;
         text-overflow: ellipsis;
+        max-width: calc(50% - 4px); /* Force equal width */
     }
     
     /* Mobile-specific button styles */
@@ -1327,7 +1306,7 @@ html, body {
         padding: 6px 4px;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
         align-items: stretch;
     }
     
@@ -1340,6 +1319,7 @@ html, body {
         align-items: center;
         justify-content: center;
         text-align: center;
+        max-width: calc(50% - 3px); /* Force equal width */
     }
     
     /* Welcome screen mobile */
