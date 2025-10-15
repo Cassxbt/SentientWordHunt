@@ -1133,36 +1133,31 @@ html, body {
     /* =============================================== */
     
     .game-controls {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 8px !important;
-        padding: 8px 6px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        margin-top: 10px !important;
-        justify-content: space-between !important;
-        align-items: stretch !important;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 8px 6px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 10px;
     }
     
     .btn {
-        font-size: 0.8rem !important;
-        padding: 12px 8px !important;
-        min-height: 50px !important;
-        touch-action: manipulation !important;
-        -webkit-tap-highlight-color: transparent !important;
-        font-weight: 600 !important;
-        cursor: pointer !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        flex: 1 1 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        text-overflow: ellipsis !important;
-        width: calc(50% - 4px) !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
+        font-size: 0.8rem;
+        padding: 12px 8px;
+        min-height: 50px; /* Better touch target */
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        flex: 1; /* Equal width buttons */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        text-overflow: ellipsis;
     }
     
     /* Mobile-specific button styles */
@@ -1170,18 +1165,12 @@ html, body {
         background: linear-gradient(135deg, #FF6B7A, #FF0A54);
         color: white;
         border: 2px solid #FF6B7A;
-        font-size: 0.7rem !important;
-        padding: 6px 4px !important;
-        min-height: 32px !important;
     }
     
     .btn-share {
         background: linear-gradient(135deg, #1da1f2, #0d8bd9);
         color: white;
         border: 2px solid #1da1f2;
-        font-size: 0.7rem !important;
-        padding: 6px 4px !important;
-        min-height: 32px !important;
     }
     
     .btn:active {
@@ -1310,26 +1299,14 @@ html, body {
     }
     
     .game-controls {
-        gap: 6px !important;
-        padding: 6px 4px !important;
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: stretch !important;
+        gap: 6px;
+        padding: 6px 4px;
     }
     
     .btn {
-        font-size: 0.75rem !important;
-        padding: 10px 6px !important;
-        min-height: 46px !important;
-        flex: 1 1 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        width: calc(50% - 3px) !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
+        font-size: 0.85rem;
+        padding: 10px 8px;
+        min-height: 44px;
     }
     
     /* Welcome screen mobile */
