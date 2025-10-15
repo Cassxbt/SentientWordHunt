@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Sentient Word Hunt - An AI-powered word search game by Sentient.xyz">
+    <meta property="og:title" content="Sentient Word Hunt">
+    <meta property="og:description" content="Challenge your mind with Sentient's AI-themed word puzzle game">
+    <meta property="og:type" content="website">
+    <title>Sentient Word Hunt | Sentient.xyz</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Game Container -->
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="header-content">
+                <div class="brand-section">
+                    <a href="https://sentient.xyz" target="_blank" rel="noopener noreferrer" class="logo-link" title="Visit Sentient.xyz">
+                        <div class="logo-container">
+                            <img src="assets/images/Sentient-logo.jpeg" alt="Sentient.xyz" class="logo">
+                        </div>
+                    </a>
+                    <div class="brand-text">
+                        <a href="https://sentient.xyz" target="_blank" rel="noopener noreferrer" class="title-link" title="Visit Sentient.xyz">
+                            <h1 class="game-title">Sentient Word Hunt</h1>
+                        </a>
+                        <p class="game-subtitle">Powered by <span class="Dobby🐾">Dobby🐾</span></p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="level-display">
+                        <div id="current-level" class="level-text">Level 1: Beginner</div>
+                        <div id="target-score" class="target-text">Target: 50 pts</div>
+                    </div>
+                    <div class="timer-display">
+                        <span class="timer-label">⏱️</span>
+                        <span id="time-remaining" class="timer-value">0:00</span>
+                    </div>
+                    <div class="score-display">
+                        <span class="score-label">Score</span>
+                        <span id="score" class="score-value">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <main class="game-main">
+            <!-- Grid Container -->
+            <div class="grid-section">
+                <div class="grid-wrapper">
+                    <canvas id="selection-canvas"></canvas>
+                    <div id="word-grid" class="word-grid"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="game-sidebar">
+                <div class="sidebar-header">
+                    <h2>Progress</h2>
+                    <div class="progress-stats">
+                        <span id="words-found">0</span>/<span id="total-words">0</span> words
+                    </div>
+                </div>
+
+                <div class="found-words-section">
+                    <div id="sentient-words" class="word-category">
+                        <h3>
+                            <span class="category-icon">🧠</span>
+                            <span>Sentient Words</span>
+                            <span class="category-score" id="sentient-score">0</span>
+                        </h3>
+                        <ul id="sentient-list" class="word-list"></ul>
+                    </div>
+                    <div id="bonus-words" class="word-category">
+                        <h3>
+                            <span class="category-icon">💎</span>
+                            <span>Bonus Words</span>
+                            <span class="category-score" id="bonus-score">0</span>
+                        </h3>
+                        <ul id="bonus-list" class="word-list"></ul>
+                    </div>
+                </div>
+
+                <div class="game-controls">
+                    <button id="hint-btn" class="btn btn-secondary">
+                        <span class="btn-icon">💡</span>
+                        Hint (0/0)
+                    </button>
+                    <button id="share-btn" class="btn btn-share">
+                        <span class="btn-icon">🐦</span>
+                        Share Score
+                    </button>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="game-footer">
+            <p>Built with 💜 by <a href="https://x.com/cassxbt" target="_blank" rel="noopener noreferrer">Cassxbt</a></p>
+        </footer>
+    </div>
+
+    <!-- Welcome Modal -->
+    <div id="welcome-modal" class="modal">
+        <div class="modal-content welcome-content">
+            <div class="welcome-logo">
+                <img src="assets/images/Sentient-logo.jpeg" alt="Sentient.xyz" class="welcome-logo-img">
+            </div>
+            <p class="welcome-intro">Welcome to</p>
+            <h1 class="welcome-title">Sentient Word Hunt</h1>
+            <p class="welcome-subtitle">Dobby🐾 Powered Search Adventure Game</p>
+            <button id="welcome-start-btn" class="btn-welcome-start">
+                🎮 Start Game
+            </button>
+        </div>
+    </div>
+
+    <!-- Level Selection Modal -->
+    <div id="level-select-modal" class="modal">
+        <div class="modal-content level-select-content">
+            <h2>📊 Choose Your Level</h2>
+            <p class="modal-subtitle">Click any level to start playing!</p>
+            
+            <div id="level-selector" class="level-selector">
+                <!-- Levels populated by JavaScript -->
+            </div>
+            
+            <div class="level-select-buttons">
+                <button id="level-instructions-btn" class="btn btn-secondary">
+                    📖 How to Play
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div id="instructions-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>🎯 How to Play</h2>
+            <div class="instructions">
+                <div class="instruction-block">
+                    <h4>🎮 Objective</h4>
+                    <p>Find Sentient-themed words to reach your target score before time runs out!</p>
+                </div>
+                
+                <div class="instruction-block">
+                    <h4>🖱️ Controls</h4>
+                    <p><strong>Desktop:</strong> Click and drag to select letters</p>
+                    <p><strong>Mobile:</strong> Touch and drag to select letters</p>
+                </div>
+                
+                <div class="instruction-block">
+                    <h4>⭐ Scoring</h4>
+                    <ul>
+                        <li><strong>Sentient Words:</strong> 10 points (base)</li>
+                        <li><strong>Quality Sentient Words:</strong> 20 points (×2 multiplier)</li>
+                        <li><strong>Bonus Dictionary Words:</strong> 3 points</li>
+                    </ul>
+                </div>
+                
+                <div class="instruction-block">
+                    <h4>📐 Rules</h4>
+                    <ul>
+                        <li>Letters must be adjacent (horizontal, vertical, or diagonal)</li>
+                        <li>No gaps in letter selection</li>
+                        <li>Words can go right, down, or diagonally</li>
+                        <li>Reach target score before time runs out!</li>
+                    </ul>
+                </div>
+                
+                <div class="instruction-block">
+                    <h4>🎯 Level System</h4>
+                    <p>8 levels from Beginner to Legendary. Each level has:</p>
+                    <ul>
+                        <li>Target score to achieve</li>
+                        <li>Time limit</li>
+                        <li>Minimum words to find</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="btn btn-primary close-modal-btn">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Level Complete Modal -->
+    <div id="level-complete-modal" class="modal">
+        <div class="modal-content victory-content">
+            <div class="victory-animation">👍</div>
+            <h2>Good game!</h2>
+            <p class="victory-message">You passed Level <span id="complete-level-num">1</span>!</p>
+            <div class="final-score-container">
+                <div class="final-score-label">Score</div>
+                <div class="final-score" id="complete-score">0</div>
+            </div>
+            <div class="victory-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="complete-words">0</div>
+                    <div class="stat-label">Words Found</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="complete-time">0s</div>
+                    <div class="stat-label">Time Used</div>
+                </div>
+            </div>
+            <div class="victory-buttons">
+                <button id="next-level-btn" class="btn btn-primary">Next: Level 2</button>
+                <button class="back-to-menu-btn btn btn-secondary">Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Failed Modal -->
+    <div id="level-failed-modal" class="modal">
+        <div class="modal-content failed-content">
+            <div class="failed-animation">😔</div>
+            <h2>Do better</h2>
+            <p class="failed-message">Level <span id="failed-level-num">1</span> - Not quite there yet</p>
+            <div class="failed-stats">
+                <div class="stat-row">
+                    <span>Your Score:</span>
+                    <span id="failed-score">0</span>
+                </div>
+                <div class="stat-row">
+                    <span>Target:</span>
+                    <span id="failed-target">0</span>
+                </div>
+                <div class="stat-row">
+                    <span>Words Found:</span>
+                    <span><span id="failed-words">0</span>/<span id="failed-required">0</span></span>
+                </div>
+            </div>
+            <div class="failed-buttons">
+                <button id="show-stats-btn" class="btn btn-primary">📊 View Stats</button>
+                <button class="back-to-menu-btn btn btn-secondary">Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dictionary Modal (Dobby AI) -->
+    <div id="dictionary-modal" class="modal">
+        <div class="modal-content dictionary-content">
+            <span class="close-btn">&times;</span>
+            <div class="dictionary-header">
+                <div class="dictionary-icon">🐾</div>
+                <h2>AI Dictionary</h2>
+            </div>
+            <div class="dictionary-word">
+                <h3 id="dict-word">WORD</h3>
+            </div>
+            <div class="dictionary-definition" id="dict-definition">
+                <p>Click "Ask Dobby🐾" to get an AI-powered definition...</p>
+            </div>
+            <button id="ask-dobby-btn" class="btn btn-primary btn-dobby">
+                <span class="dobby-icon">🐾</span> Ask Dobby
+            </button>
+            <p class="dictionary-note">
+                <span class="dobby-branding">Powered by <strong>Dobby🐾</strong> - Sentient Loyal AI</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Stats Modal -->
+    <div id="stats-modal" class="modal">
+        <div class="modal-content stats-content">
+            <span class="close-btn">&times;</span>
+            <h2>📊 Level Stats</h2>
+            <p class="modal-subtitle">All words available in this level</p>
+            
+            <div class="stats-words-section">
+                <div class="stats-category">
+                    <h3>🧠 Sentient Words</h3>
+                    <div id="stats-sentient-list" class="stats-word-list"></div>
+                </div>
+                <div class="stats-category">
+                    <h3>💎 Bonus Words</h3>
+                    <div id="stats-bonus-list" class="stats-word-list"></div>
+                </div>
+            </div>
+            
+            <div class="stats-hint">
+                <p>💡 <strong>How hints work:</strong> The hint button highlights the first letter of an unfound word. Slashed words below have already been found!</p>
+            </div>
+            
+            <button id="close-stats-btn" class="btn btn-primary">Close</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/words.js"></script>
+    <script src="js/grid.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/input.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/game.js"></script>
+    
+    <!-- Vercel Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

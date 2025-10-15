@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/dobby.js": {
+      "maxDuration": 30
+    }
+  }
+}
+
