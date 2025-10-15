@@ -1011,8 +1011,9 @@ html, body {
     }
     
     .level-display, .timer-display {
-        font-size: 0.7rem;
-        padding: 4px 8px;
+        font-size: 0.65rem;
+        padding: 3px 6px;
+        min-width: 80px;
     }
     
     .score-display {
@@ -1044,14 +1045,15 @@ html, body {
     }
     
     .game-board {
-        padding: 6px 2px;
+        padding: 4px 2px;
         width: 100%;
         max-width: 100vw;
-        max-height: calc(100vh - 200px); /* CRITICAL: Reserve space for header/footer */
-        overflow-x: auto; /* Allow horizontal scroll for large grids */
-        overflow-y: auto; /* Allow vertical scroll if needed */
+        max-height: calc(100vh - 180px); /* CRITICAL: More space for grid */
+        overflow-x: auto;
+        overflow-y: auto;
         order: 1;
         -webkit-overflow-scrolling: touch;
+        flex: 1; /* Take available space */
     }
     
     .word-grid {
@@ -1133,14 +1135,15 @@ html, body {
     .game-controls {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        padding: 8px 6px;
+        gap: 6px;
+        padding: 6px 4px;
         width: 100%;
         box-sizing: border-box;
+        margin-top: 8px;
     }
     
     .btn {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         padding: 12px 10px;
         min-height: 48px; /* Apple HIG minimum */
         touch-action: manipulation;
@@ -1175,12 +1178,17 @@ html, body {
     }
     
     .progress-section, .found-words-section {
-        padding: 10px;
+        padding: 8px 6px;
     }
     
     .found-words-section {
-        max-height: 140px;
+        max-height: 120px;
         overflow-y: auto;
+        margin-bottom: 8px;
+    }
+    
+    .progress-section {
+        margin-bottom: 6px;
     }
     
     .word-pill {
@@ -1226,8 +1234,9 @@ html, body {
     }
     
     .level-display, .timer-display {
-        font-size: 0.65rem;
-        padding: 3px 6px;
+        font-size: 0.6rem;
+        padding: 2px 4px;
+        min-width: 70px;
     }
     
     .score-display {
@@ -1248,22 +1257,22 @@ html, body {
     }
     
     .letter-cell {
-        font-size: clamp(0.9rem, 2.8vw, 1.2rem);
-        /* CRITICAL FIX: Much larger touch targets for small screens */
+        font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+        /* CRITICAL: Smaller cells to fit more on screen */
         width: max(
-            calc((100vw - 32px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
-            32px /* MUCH BETTER minimum for small screens */
+            calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
+            28px /* Smaller to fit screen */
         );
         height: max(
-            calc((100vw - 32px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
-            32px /* MUCH BETTER minimum for small screens */
+            calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
+            28px /* Smaller to fit screen */
         );
-        min-width: 32px;
-        min-height: 32px;
-        max-width: 45px;
-        max-height: 45px;
-        border-width: 2px;
-        border-radius: 6px;
+        min-width: 28px;
+        min-height: 28px;
+        max-width: 40px;
+        max-height: 40px;
+        border-width: 1.5px;
+        border-radius: 4px;
         
         /* Enhanced touch handling for small screens */
         touch-action: none;
@@ -1530,11 +1539,12 @@ html, body {
 .welcome-content {
     max-width: 600px;
     text-align: center;
-    padding: 60px 40px;
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
 }
 
 .welcome-logo {
@@ -1582,20 +1592,21 @@ html, body {
 /* Stunning Start Game Button */
 .btn-welcome-start {
     position: relative;
-    padding: 20px 60px;
-    font-size: 1.35rem;
-    font-weight: 800;
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: white;
-    background: var(--accent-purple); /* Clean solid color instead of gradient */
-    border: 2px solid var(--logo-pink); /* Professional border */
-    border-radius: 16px;
+    background: var(--accent-purple);
+    border: 2px solid var(--logo-pink);
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Professional shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     overflow: hidden;
-    animation: btnPulseWelcome 2.5s ease-in-out infinite;
+    margin-top: 20px;
+    min-width: 200px;
 }
 
 .btn-welcome-start::before {
