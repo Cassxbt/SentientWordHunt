@@ -1154,15 +1154,15 @@ html, body {
         cursor: pointer !important;
         white-space: nowrap !important;
         overflow: hidden !important;
-        flex: 1 !important;
+        flex: 1 1 0 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         text-align: center !important;
         text-overflow: ellipsis !important;
-        max-width: calc(50% - 4px) !important;
-        width: 100% !important;
+        width: calc(50% - 4px) !important;
         margin: 0 !important;
+        box-sizing: border-box !important;
     }
     
     /* Mobile-specific button styles */
@@ -1316,14 +1316,14 @@ html, body {
         font-size: 0.75rem !important;
         padding: 10px 6px !important;
         min-height: 46px !important;
-        flex: 1 !important;
+        flex: 1 1 0 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         text-align: center !important;
-        max-width: calc(50% - 3px) !important;
-        width: 100% !important;
+        width: calc(50% - 3px) !important;
         margin: 0 !important;
+        box-sizing: border-box !important;
     }
     
     /* Welcome screen mobile */
