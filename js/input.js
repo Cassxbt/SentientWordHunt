@@ -28,13 +28,13 @@ class InputHandler {
         // Touch events (with preventDefault to avoid scrolling)
         this.gridElement.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            this.handleStart(e.touches[0]);
+            this.handleStart(e);
         }, { passive: false });
         
         document.addEventListener('touchmove', (e) => {
             if (this.isSelecting) {
                 e.preventDefault();
-                this.handleMove(e.touches[0]);
+                this.handleMove(e);
             }
         }, { passive: false });
         
@@ -51,6 +51,9 @@ class InputHandler {
     
     // Handle selection start
     handleStart(event) {
+        // Prevent default to avoid scrolling and context menus
+        event.preventDefault();
+        
         const cell = this.getCellFromEvent(event);
         if (!cell) return;
         
@@ -64,15 +67,19 @@ class InputHandler {
         this.currentCell = cell;
         cell.classList.add('selected');
         
-        this.canvasDrawer.startDrawing(
-            event.clientX || event.pageX,
-            event.clientY || event.pageY
-        );
+        // Extract coordinates properly for both mouse and touch
+        const x = event.touches ? event.touches[0].clientX : event.clientX;
+        const y = event.touches ? event.touches[0].clientY : event.clientY;
+        
+        this.canvasDrawer.startDrawing(x, y);
     }
     
     // Handle selection move
     handleMove(event) {
         if (!this.isSelecting) return;
+        
+        // Prevent default to avoid scrolling during selection
+        event.preventDefault();
         
         const cell = this.getCellFromEvent(event);
         if (!cell) return;
@@ -114,6 +121,9 @@ class InputHandler {
     handleEnd(event) {
         if (!this.isSelecting) return;
         
+        // Prevent default to avoid any unwanted behaviors
+        event.preventDefault();
+        
         this.isSelecting = false;
         this.canvasDrawer.stopDrawing();
         this.canvasDrawer.clear();
@@ -140,8 +150,9 @@ class InputHandler {
     
     // Get cell element from event coordinates
     getCellFromEvent(event) {
-        const x = event.clientX || event.pageX;
-        const y = event.clientY || event.pageY;
+        // Extract coordinates properly for both mouse and touch events
+        const x = event.touches ? event.touches[0].clientX : (event.clientX || event.pageX);
+        const y = event.touches ? event.touches[0].clientY : (event.clientY || event.pageY);
         const element = document.elementFromPoint(x, y);
         
         if (element && element.classList.contains('letter-cell')) {

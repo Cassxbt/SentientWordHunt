@@ -64,10 +64,10 @@ class SentientWordHunt {
             `;
             
             // Click level button = Start game immediately!
-            btn.onclick = () => {
+            this.addTouchClickEvent(btn, () => {
                 this.currentLevel = config.level;
                 this.startGameWithLevel(config.level);
-            };
+            });
             
             container.appendChild(btn);
         });
@@ -137,31 +137,45 @@ class SentientWordHunt {
     }
     
     // Setup all event listeners
+    // Helper function to add both click and touchend events for mobile support
+    addTouchClickEvent(element, handler) {
+        if (!element) return;
+        
+        // Add click event for desktop
+        element.addEventListener('click', handler);
+        
+        // Add touchend event for mobile with ghost click prevention
+        element.addEventListener('touchend', (e) => {
+            e.preventDefault(); // Prevent ghost clicks
+            handler(e);
+        }, { passive: false });
+    }
+
     setupEventListeners() {
         // Welcome screen button
-        document.getElementById('welcome-start-btn')?.addEventListener('click', () => {
+        this.addTouchClickEvent(document.getElementById('welcome-start-btn'), () => {
             this.showLevelSelection();
         });
         
         // Instructions button from level select
-        document.getElementById('level-instructions-btn')?.addEventListener('click', () => {
+        this.addTouchClickEvent(document.getElementById('level-instructions-btn'), () => {
             this.hideModal('level-select-modal');
             this.showInstructions();
         });
         
         // In-game buttons
-        document.getElementById('hint-btn')?.addEventListener('click', () => {
+        this.addTouchClickEvent(document.getElementById('hint-btn'), () => {
             this.showHint();
         });
         
-        document.getElementById('share-btn')?.addEventListener('click', () => {
+        this.addTouchClickEvent(document.getElementById('share-btn'), () => {
             this.shareScore();
         });
         
         // Modal close buttons
         const closeButtons = document.querySelectorAll('.close-btn, .close-modal-btn');
         closeButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            this.addTouchClickEvent(btn, (e) => {
                 // Check if this is the stats modal close button
                 const statsModal = document.getElementById('stats-modal');
                 if (statsModal && statsModal.classList.contains('active') && 
@@ -189,7 +203,7 @@ class SentientWordHunt {
         // Dictionary close button - RESUME TIMER when closing!
         const dictCloseBtn = document.querySelector('#dictionary-modal .close-btn');
         if (dictCloseBtn) {
-            dictCloseBtn.addEventListener('click', () => {
+            this.addTouchClickEvent(dictCloseBtn, () => {
                 this.hideModal('dictionary-modal');
                 this.resumeTimer();
             });
@@ -223,7 +237,7 @@ class SentientWordHunt {
         });
         
         // Level complete buttons
-        document.getElementById('next-level-btn')?.addEventListener('click', () => {
+        this.addTouchClickEvent(document.getElementById('next-level-btn'), () => {
             this.hideModal('level-complete-modal');
             if (this.currentLevel < 8) {
                 this.currentLevel++;
@@ -234,14 +248,14 @@ class SentientWordHunt {
         });
         
         // Stats button (replaced Try Again)
-        document.getElementById('show-stats-btn')?.addEventListener('click', () => {
+        this.addTouchClickEvent(document.getElementById('show-stats-btn'), () => {
             this.hideModal('level-failed-modal');
             this.showStats();
         });
         
         // Back to menu buttons (multiple) - Go back to level selection
         document.querySelectorAll('.back-to-menu-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            this.addTouchClickEvent(btn, () => {
                 this.hideAllModals();
                 this.stopTimer();
                 this.gameStarted = false;
@@ -254,12 +268,12 @@ class SentientWordHunt {
         });
         
         // Dictionary buttons
-        document.getElementById('ask-dobby-btn')?.addEventListener('click', () => {
+        this.addTouchClickEvent(document.getElementById('ask-dobby-btn'), () => {
             this.askDobbyAboutWord();
         });
         
         // Stats modal close button - return to level failed modal
-        document.getElementById('close-stats-btn')?.addEventListener('click', () => {
+        this.addTouchClickEvent(document.getElementById('close-stats-btn'), () => {
             this.hideModal('stats-modal');
             // If game ended in failure, show the failed modal again
             if (this.gameEnded) {
@@ -442,10 +456,10 @@ class SentientWordHunt {
         const nextBtn = document.getElementById('next-level-btn');
             if (this.currentLevel >= 8) {
             nextBtn.textContent = '🏆 You Beat All Levels!';
-            nextBtn.onclick = () => {
+            this.addTouchClickEvent(nextBtn, () => {
                 this.hideModal('level-complete-modal');
                 this.showLevelSelection();
-            };
+            });
         } else {
             nextBtn.textContent = `🎮 Next: Level ${this.currentLevel + 1}`;
         }
@@ -496,7 +510,7 @@ class SentientWordHunt {
             li.textContent = wordData.word;
             li.title = `${wordData.points} points - Click for definition`;
             li.style.cursor = 'pointer';
-            li.onclick = () => this.showWordDefinition(wordData.word);
+            this.addTouchClickEvent(li, () => this.showWordDefinition(wordData.word));
             sentientList.appendChild(li);
             sentientScore += wordData.points;
         });

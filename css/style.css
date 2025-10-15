@@ -56,6 +56,8 @@ body {
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
+    touch-action: none; /* Prevent scrolling during word selection */
+    overscroll-behavior: none; /* Prevent bounce scrolling */
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     position: relative;
@@ -548,6 +550,7 @@ html, body {
     border-radius: 12px;
     font-size: 0.975rem;
     font-weight: 700;
+    touch-action: manipulation; /* Optimize touch interactions */
     cursor: pointer;
     transition: var(--transition);
     text-transform: uppercase;
