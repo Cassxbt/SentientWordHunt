@@ -892,7 +892,7 @@ html, body {
         padding: 8px 12px;
         min-height: 100vh;
         max-height: 100vh;
-        overflow: hidden;
+        overflow: visible; /* CRITICAL: Allow content to be visible */
     }
     
     .game-header {
@@ -902,9 +902,10 @@ html, body {
     
     .game-board {
         flex: 1;
-        overflow: visible;
+        overflow: auto; /* CRITICAL: Allow scrolling if needed */
         padding: 4px;
-        max-height: calc(100vh - 120px);
+        max-height: calc(100vh - 140px); /* Better space calculation */
+        min-height: 300px; /* Ensure minimum visible area */
     }
     
     .word-grid {
@@ -916,23 +917,25 @@ html, body {
     }
     
     .letter-cell {
-        font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+        font-size: clamp(1rem, 2vw, 1.2rem);
         width: max(
             min(
-                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
-                50px
+                calc((100vw - 60px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10)),
+                55px
             ),
-            32px
+            38px /* Better touch targets for tablets */
         );
         height: max(
             min(
-                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
-                50px
+                calc((100vw - 60px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10)),
+                55px
             ),
-            32px
+            38px /* Better touch targets for tablets */
         );
-        min-width: 32px;
-        min-height: 32px;
+        min-width: 38px;
+        min-height: 38px;
+        max-width: 55px;
+        max-height: 55px;
     }
     
     .game-sidebar {
@@ -1044,8 +1047,9 @@ html, body {
         padding: 6px 2px;
         width: 100%;
         max-width: 100vw;
+        max-height: calc(100vh - 200px); /* CRITICAL: Reserve space for header/footer */
         overflow-x: auto; /* Allow horizontal scroll for large grids */
-        overflow-y: visible;
+        overflow-y: auto; /* Allow vertical scroll if needed */
         order: 1;
         -webkit-overflow-scrolling: touch;
     }
@@ -1063,40 +1067,36 @@ html, body {
     }
     
     .letter-cell {
-        /* Responsive cell size with better touch targets */
-        font-size: clamp(0.9rem, 2.8vw, 1.2rem);
+        /* CRITICAL FIX: Much larger touch targets for mobile */
+        font-size: clamp(1rem, 3vw, 1.3rem);
         font-weight: 700;
         
-        /* Improved sizing: Better touch targets, ensure grid fits */
+        /* PROFESSIONAL SIZING: Ensure cells are always touchable */
         width: max(
             min(
-                calc((100vw - 32px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
-                45px /* Maximum size to prevent huge cells on large screens */
+                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10)),
+                50px /* Maximum size */
             ),
-            28px /* Better minimum size for touch targets */
+            35px /* MUCH BETTER minimum size for touch targets */
         );
         height: max(
             min(
-                calc((100vw - 32px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
-                45px /* Maximum size to prevent huge cells on large screens */
+                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10)),
+                50px /* Maximum size */
             ),
-            28px /* Better minimum size for touch targets */
+            35px /* MUCH BETTER minimum size for touch targets */
         );
         
-        /* Better touch interaction area */
-        min-width: 28px;
-        min-height: 28px;
+        /* CRITICAL: Ensure minimum touch area */
+        min-width: 35px;
+        min-height: 35px;
+        max-width: 50px;
+        max-height: 50px;
         
         /* Enhanced touch handling */
         touch-action: none; /* Prevent scrolling during selection */
         -webkit-user-select: none;
         user-select: none;
-        
-        /* Fallback for browsers without CSS variables */
-        min-width: 22px;
-        min-height: 22px;
-        max-width: 40px;
-        max-height: 40px;
         
         border-radius: clamp(4px, 1vw, 8px);
         border-width: 2px;
@@ -1248,22 +1248,22 @@ html, body {
     }
     
     .letter-cell {
-        font-size: clamp(0.85rem, 2.5vw, 1.1rem);
-        /* Better sizing for small screens with improved touch targets */
+        font-size: clamp(0.9rem, 2.8vw, 1.2rem);
+        /* CRITICAL FIX: Much larger touch targets for small screens */
         width: max(
-            calc((100vw - 24px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
-            26px /* Better minimum for small screens */
+            calc((100vw - 32px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
+            32px /* MUCH BETTER minimum for small screens */
         );
         height: max(
-            calc((100vw - 24px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
-            26px /* Better minimum for small screens */
+            calc((100vw - 32px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
+            32px /* MUCH BETTER minimum for small screens */
         );
-        min-width: 26px;
-        min-height: 26px;
-        max-width: 38px;
-        max-height: 35px;
-        border-width: 1.5px;
-        border-radius: 4px;
+        min-width: 32px;
+        min-height: 32px;
+        max-width: 45px;
+        max-height: 45px;
+        border-width: 2px;
+        border-radius: 6px;
         
         /* Enhanced touch handling for small screens */
         touch-action: none;
@@ -1545,7 +1545,7 @@ html, body {
     width: 130px;
     height: 130px;
     border-radius: 24px;
-    filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.7));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3)); /* Professional shadow */
     animation: logoFloat 3s ease-in-out infinite;
 }
 
@@ -1559,18 +1559,15 @@ html, body {
     text-transform: uppercase;
 }
 
-/* Big main title */
+/* PROFESSIONAL main title - removed amateur glowing effects */
 .welcome-title {
     font-size: 3.5rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, #a855f7 0%, #d946ef 50%, #ec4899 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-weight: 800;
+    color: var(--text-primary); /* Clean white text instead of gradient */
     margin-bottom: 20px;
     line-height: 1.1;
-    filter: drop-shadow(0 4px 8px rgba(168, 85, 247, 0.3));
     letter-spacing: -1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow only */
 }
 
 /* Smaller Dobby subtitle */
@@ -1589,13 +1586,12 @@ html, body {
     font-size: 1.35rem;
     font-weight: 800;
     color: white;
-    background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
-    border: none;
+    background: var(--accent-purple); /* Clean solid color instead of gradient */
+    border: 2px solid var(--logo-pink); /* Professional border */
     border-radius: 16px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 40px rgba(168, 85, 247, 0.5),
-                0 0 60px rgba(217, 70, 239, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Professional shadow */
     text-transform: uppercase;
     letter-spacing: 1.5px;
     overflow: hidden;
@@ -1616,10 +1612,9 @@ html, body {
 }
 
 .btn-welcome-start:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 50px rgba(168, 85, 247, 0.7),
-                0 0 80px rgba(217, 70, 239, 0.5),
-                inset 0 0 20px rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    background: var(--logo-pink); /* Clean hover effect */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 .btn-welcome-start:hover::before {
@@ -1633,12 +1628,10 @@ html, body {
 
 @keyframes btnPulseWelcome {
     0%, 100% {
-        box-shadow: 0 10px 40px rgba(168, 85, 247, 0.5),
-                    0 0 60px rgba(217, 70, 239, 0.3);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     50% {
-        box-shadow: 0 15px 50px rgba(168, 85, 247, 0.7),
-                    0 0 80px rgba(217, 70, 239, 0.5);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
     }
 }
 
