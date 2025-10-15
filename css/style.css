@@ -1145,9 +1145,9 @@ html, body {
     }
     
     .btn {
-        font-size: 0.75rem !important;
-        padding: 8px 6px !important;
-        min-height: 36px !important;
+        font-size: 0.8rem !important;
+        padding: 12px 8px !important;
+        min-height: 50px !important;
         touch-action: manipulation !important;
         -webkit-tap-highlight-color: transparent !important;
         font-weight: 600 !important;
@@ -1170,12 +1170,18 @@ html, body {
         background: linear-gradient(135deg, #FF6B7A, #FF0A54);
         color: white;
         border: 2px solid #FF6B7A;
+        font-size: 0.7rem !important;
+        padding: 6px 4px !important;
+        min-height: 32px !important;
     }
     
     .btn-share {
         background: linear-gradient(135deg, #1da1f2, #0d8bd9);
         color: white;
         border: 2px solid #1da1f2;
+        font-size: 0.7rem !important;
+        padding: 6px 4px !important;
+        min-height: 32px !important;
     }
     
     .btn:active {
@@ -1313,9 +1319,9 @@ html, body {
     }
     
     .btn {
-        font-size: 0.7rem !important;
-        padding: 6px 4px !important;
-        min-height: 32px !important;
+        font-size: 0.75rem !important;
+        padding: 10px 6px !important;
+        min-height: 46px !important;
         flex: 1 1 0 !important;
         display: flex !important;
         align-items: center !important;
