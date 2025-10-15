@@ -1133,26 +1133,46 @@ html, body {
     /* =============================================== */
     
     .game-controls {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 6px;
-        padding: 6px 4px;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        padding: 8px 6px;
         width: 100%;
         box-sizing: border-box;
-        margin-top: 8px;
+        margin-top: 10px;
+        justify-content: space-between;
+        align-items: stretch;
     }
     
     .btn {
-        font-size: 0.85rem;
-        padding: 12px 10px;
-        min-height: 48px; /* Apple HIG minimum */
+        font-size: 0.8rem;
+        padding: 12px 8px;
+        min-height: 50px; /* Better touch target */
         touch-action: manipulation;
         -webkit-tap-highlight-color: transparent;
         font-weight: 600;
         cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
+        flex: 1; /* Equal width buttons */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
         text-overflow: ellipsis;
+    }
+    
+    /* Mobile-specific button styles */
+    .btn-hint {
+        background: linear-gradient(135deg, #FF6B7A, #FF0A54);
+        color: white;
+        border: 2px solid #FF6B7A;
+    }
+    
+    .btn-share {
+        background: linear-gradient(135deg, #1da1f2, #0d8bd9);
+        color: white;
+        border: 2px solid #1da1f2;
     }
     
     .btn:active {
@@ -1283,12 +1303,21 @@ html, body {
     .game-controls {
         gap: 6px;
         padding: 6px 4px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
     }
     
     .btn {
-        font-size: 0.85rem;
-        padding: 10px 8px;
-        min-height: 44px;
+        font-size: 0.75rem;
+        padding: 10px 6px;
+        min-height: 46px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
     
     /* Welcome screen mobile */
