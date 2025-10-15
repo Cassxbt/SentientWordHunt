@@ -884,6 +884,65 @@ html, body {
 }
 
 /* ================================================== */
+/*  TABLET LANDSCAPE FIXES (768px - 1024px)          */
+/*  Fixes grid visibility and sizing in landscape    */
+/* ================================================== */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .game-container {
+        padding: 8px 12px;
+        min-height: 100vh;
+        max-height: 100vh;
+        overflow: hidden;
+    }
+    
+    .game-header {
+        padding: 8px 4px;
+        flex-shrink: 0;
+    }
+    
+    .game-board {
+        flex: 1;
+        overflow: visible;
+        padding: 4px;
+        max-height: calc(100vh - 120px);
+    }
+    
+    .word-grid {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: grid;
+        place-items: center;
+    }
+    
+    .letter-cell {
+        font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+        width: max(
+            min(
+                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
+                50px
+            ),
+            32px
+        );
+        height: max(
+            min(
+                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
+                50px
+            ),
+            32px
+        );
+        min-width: 32px;
+        min-height: 32px;
+    }
+    
+    .game-sidebar {
+        order: 2;
+        flex-shrink: 0;
+        padding: 8px 4px;
+    }
+}
+
+/* ================================================== */
 /*  MOBILE OPTIMIZATION (TABLET & PHONE)             */
 /*  All changes below ONLY affect screens ≤768px     */
 /*  Desktop styles above remain completely untouched */
@@ -1004,25 +1063,34 @@ html, body {
     }
     
     .letter-cell {
-        /* Responsive cell size with smart minimum constraint */
-        font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+        /* Responsive cell size with better touch targets */
+        font-size: clamp(0.9rem, 2.8vw, 1.2rem);
         font-weight: 700;
         
-        /* Smart sizing: Try to fit screen, but ensure minimum playable size */
+        /* Improved sizing: Better touch targets, ensure grid fits */
         width: max(
             min(
-                calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
-                40px /* Maximum size to prevent huge cells on large screens */
+                calc((100vw - 32px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
+                45px /* Maximum size to prevent huge cells on large screens */
             ),
-            22px /* Minimum viable size for touch (reduced for large grids) */
+            28px /* Better minimum size for touch targets */
         );
         height: max(
             min(
-                calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
-                40px /* Maximum size to prevent huge cells on large screens */
+                calc((100vw - 32px - (var(--grid-size, 10) - 1) * 4px) / var(--grid-size, 10)),
+                45px /* Maximum size to prevent huge cells on large screens */
             ),
-            22px /* Minimum viable size for touch (reduced for large grids) */
+            28px /* Better minimum size for touch targets */
         );
+        
+        /* Better touch interaction area */
+        min-width: 28px;
+        min-height: 28px;
+        
+        /* Enhanced touch handling */
+        touch-action: none; /* Prevent scrolling during selection */
+        -webkit-user-select: none;
+        user-select: none;
         
         /* Fallback for browsers without CSS variables */
         min-width: 22px;
@@ -1180,22 +1248,27 @@ html, body {
     }
     
     .letter-cell {
-        font-size: clamp(0.8rem, 2.2vw, 1rem);
-        /* Smart sizing for small screens with minimum constraint */
+        font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+        /* Better sizing for small screens with improved touch targets */
         width: max(
-            calc((100vw - 20px - (var(--grid-size, 10) - 1) * 2px) / var(--grid-size, 10)),
-            22px /* Minimum for small screens */
+            calc((100vw - 24px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
+            26px /* Better minimum for small screens */
         );
         height: max(
-            calc((100vw - 20px - (var(--grid-size, 10) - 1) * 2px) / var(--grid-size, 10)),
-            22px /* Minimum for small screens */
+            calc((100vw - 24px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
+            26px /* Better minimum for small screens */
         );
-        min-width: 22px;
-        min-height: 22px;
-        max-width: 35px;
+        min-width: 26px;
+        min-height: 26px;
+        max-width: 38px;
         max-height: 35px;
         border-width: 1.5px;
         border-radius: 4px;
+        
+        /* Enhanced touch handling for small screens */
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
     }
     
     .game-controls {

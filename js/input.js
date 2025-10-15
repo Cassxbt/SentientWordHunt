@@ -74,7 +74,7 @@ class InputHandler {
         this.canvasDrawer.startDrawing(x, y);
     }
     
-    // Handle selection move
+    // Handle selection move with improved touch handling
     handleMove(event) {
         if (!this.isSelecting) return;
         
@@ -82,7 +82,10 @@ class InputHandler {
         event.preventDefault();
         
         const cell = this.getCellFromEvent(event);
-        if (!cell) return;
+        if (!cell) {
+            // If we can't find a cell, don't stop selection - allow continuation
+            return;
+        }
         
         // Don't allow selecting already found cells
         if (cell.classList.contains('found') || cell.classList.contains('found-sentient')) {
@@ -148,12 +151,27 @@ class InputHandler {
         this.currentCell = null;
     }
     
-    // Get cell element from event coordinates
+    // Get cell element from event coordinates with improved accuracy
     getCellFromEvent(event) {
         // Extract coordinates properly for both mouse and touch events
         const x = event.touches ? event.touches[0].clientX : (event.clientX || event.pageX);
         const y = event.touches ? event.touches[0].clientY : (event.clientY || event.pageY);
-        const element = document.elementFromPoint(x, y);
+        
+        // Try to find the letter cell element
+        let element = document.elementFromPoint(x, y);
+        
+        // If we didn't hit a letter cell directly, check if we're within a letter cell's bounds
+        if (!element || !element.classList.contains('letter-cell')) {
+            // Get all letter cells and check which one contains our coordinates
+            const letterCells = document.querySelectorAll('.letter-cell');
+            for (const cell of letterCells) {
+                const rect = cell.getBoundingClientRect();
+                if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                    element = cell;
+                    break;
+                }
+            }
+        }
         
         if (element && element.classList.contains('letter-cell')) {
             return element;
