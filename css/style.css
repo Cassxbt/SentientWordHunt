@@ -544,6 +544,28 @@ html, body {
     gap: 12px;
 }
 
+/* Mobile override - force row layout */
+@media (max-width: 768px) {
+    .game-controls {
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+        padding: 8px 6px !important;
+    }
+    
+    .game-controls .btn {
+        flex: 1 !important;
+        min-width: 0 !important;
+        max-width: calc(50% - 4px) !important;
+        font-size: 0.75rem !important;
+        padding: 10px 6px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+}
+
 .btn {
     padding: 14px 20px;
     border: none;
