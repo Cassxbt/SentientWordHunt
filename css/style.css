@@ -2079,18 +2079,3 @@ html, body {
         display: none;
     }
 }
-
-/* Force vertical stack for smallest screens - Cass's recommendation */
-@media (max-width: 400px) {
-    .game-controls {
-        flex-direction: column !important;
-        gap: 8px !important;
-        padding: 8px 6px !important;
-    }
-    
-    .btn {
-        max-width: 100% !important;
-        width: 100% !important;
-        margin: 0 !important;
-    }
-}
