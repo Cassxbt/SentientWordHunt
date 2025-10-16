@@ -232,9 +232,6 @@ function renderGrid(grid) {
     // Set CSS variable for responsive mobile sizing
     gridElement.style.setProperty('--grid-size', grid.size);
     
-    // Mobile-first responsive sizing
-    handleGridResize(grid);
-    
     // Create grid cells
     for (let row = 0; row < grid.size; row++) {
         for (let col = 0; col < grid.size; col++) {
@@ -255,46 +252,3 @@ function renderGrid(grid) {
         totalWordsElement.textContent = stats.sentientWords;
     }
 }
-
-// ===== MOBILE-FIRST RESPONSIVE HANDLING =====
-function handleGridResize(grid) {
-    const gridElement = document.getElementById('word-grid');
-    const containerWidth = gridElement.offsetWidth;
-    const cellSize = containerWidth / grid.size;
-    
-    // Update CSS custom property for cell sizing
-    gridElement.style.setProperty('--cell-size', `${cellSize}px`);
-    
-    // Handle canvas resizing if it exists
-    const canvas = document.getElementById('selection-canvas');
-    if (canvas) {
-        canvas.width = containerWidth;
-        canvas.height = containerWidth;
-    }
-}
-
-// Add resize event listeners for mobile orientation changes
-window.addEventListener('resize', () => {
-    // Get current grid if it exists
-    const gridElement = document.getElementById('word-grid');
-    if (gridElement && gridElement.children.length > 0) {
-        // Recalculate grid size based on current grid
-        const gridSize = Math.sqrt(gridElement.children.length);
-        if (gridSize > 0) {
-            const currentGrid = { size: gridSize };
-            handleGridResize(currentGrid);
-        }
-    }
-});
-
-window.addEventListener('load', () => {
-    // Initial resize handling
-    const gridElement = document.getElementById('word-grid');
-    if (gridElement && gridElement.children.length > 0) {
-        const gridSize = Math.sqrt(gridElement.children.length);
-        if (gridSize > 0) {
-            const currentGrid = { size: gridSize };
-            handleGridResize(currentGrid);
-        }
-    }
-});
