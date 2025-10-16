@@ -953,38 +953,39 @@ html, body {
 
 @media (max-width: 768px) {
     /* =============================================== */
-    /* LAYOUT CONTAINER OPTIMIZATION                  */
+    /* CRITICAL FIXES FOR MOBILE GRID VISIBILITY      */
     /* =============================================== */
     
-    /* Base container - minimal padding for max space */
+    /* Allow page to scroll naturally */
+    body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+    
     .game-container {
         padding: 6px 4px;
         max-width: 100vw;
-        min-height: 100vh;
+        height: auto; /* Remove min-height constraint */
         overflow-x: hidden;
     }
     
     /* =============================================== */
-    /* HEADER COMPRESSION FOR MORE GAME SPACE        */
+    /* HEADER - KEEP COMPACT                          */
     /* =============================================== */
     
-    /* Compact header to maximize game space */
     .game-header {
         padding: 8px 6px;
-        flex-direction: column;
-        gap: 6px;
+        margin-bottom: 8px;
     }
     
     .header-content {
         flex-direction: column;
         gap: 4px;
-        width: 100%;
     }
     
     .brand-section {
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
         gap: 8px;
     }
     
@@ -995,7 +996,6 @@ html, body {
     
     .game-title {
         font-size: 1.2rem;
-        letter-spacing: -0.3px;
     }
     
     .game-subtitle {
@@ -1011,16 +1011,14 @@ html, body {
     }
     
     .level-display, .timer-display {
-        font-size: 0.65rem;
-        padding: 3px 6px;
-        min-width: 80px;
+        font-size: 0.7rem;
+        padding: 4px 8px;
     }
     
     .score-display {
         width: 100%;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
         padding: 10px 8px;
         margin-bottom: 6px;
     }
@@ -1029,81 +1027,93 @@ html, body {
         font-size: 1.6rem;
     }
     
-    .score-label {
-        font-size: 0.8rem;
-    }
-    
     /* =============================================== */
-    /* GAME GRID - RESPONSIVE CELL SIZING             */
-    /* Critical fix: Grid cells now fit any screen    */
-    /* Formula: max(min(calculated_size, 40px), 22px) */
+    /* GAME LAYOUT - VERTICAL STACK                   */
     /* =============================================== */
     
     .game-main {
         gap: 8px;
         flex-direction: column;
+        display: flex;
     }
     
-    .game-board {
-        padding: 4px 2px;
+    /* =============================================== */
+    /* GRID SECTION - THE CRITICAL FIX                */
+    /* Remove all height constraints                  */
+    /* =============================================== */
+    
+    .grid-section {
+        order: 1;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        /* NO height constraints */
+    }
+    
+    .grid-wrapper {
+        padding: 10px;
         width: 100%;
         max-width: 100vw;
-        max-height: calc(100vh - 180px); /* CRITICAL: More space for grid */
-        overflow-x: auto;
-        overflow-y: auto;
-        order: 1;
-        -webkit-overflow-scrolling: touch;
-        flex: 1; /* Take available space */
+        /* CRITICAL: No height/max-height constraints */
+        height: auto;
+        min-height: 0;
+        overflow: visible;
     }
+    
+    /* =============================================== */
+    /* WORD GRID - REMOVE ASPECT RATIO                */
+    /* This is THE fix for "last row cut off"        */
+    /* =============================================== */
     
     .word-grid {
-        /* Dynamic cell sizing with smart overflow handling */
+        /* CRITICAL: Remove square constraint on mobile */
+        aspect-ratio: unset !important;
+        
+        /* Let grid be as tall as it needs to be */
+        height: auto;
+        width: 100%;
+        
+        /* Responsive gap */
         gap: clamp(2px, 0.5vw, 4px);
         padding: 4px;
-        /* Let grid be as wide as needed, but ensure minimum cell size */
-        width: max-content;
-        min-width: 100%;
         margin: 0 auto;
-        justify-items: center;
-        align-items: center;
+        
+        /* No overflow constraints */
+        overflow: visible;
     }
     
+    /* =============================================== */
+    /* LETTER CELLS - SMART RESPONSIVE SIZING         */
+    /* Uses --grid-size variable from grid.js         */
+    /* =============================================== */
+    
     .letter-cell {
-        /* CRITICAL FIX: Much larger touch targets for mobile */
-        font-size: clamp(1rem, 3vw, 1.3rem);
+        /* Font scales with cell size */
+        font-size: clamp(0.75rem, 2.2vw, 1rem);
         font-weight: 700;
         
-        /* PROFESSIONAL SIZING: Ensure cells are always touchable */
-        width: max(
-            min(
-                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10)),
-                50px /* Maximum size */
-            ),
-            35px /* MUCH BETTER minimum size for touch targets */
+        /* RESPONSIVE SIZE based on grid size (10x10 to 17x17) */
+        /* Formula: (viewport width - padding - gaps) / grid columns */
+        width: clamp(
+            24px,  /* Minimum: 24px for touch */
+            calc((100vw - 40px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
+            42px   /* Maximum: 42px to prevent huge cells */
         );
-        height: max(
-            min(
-                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10)),
-                50px /* Maximum size */
-            ),
-            35px /* MUCH BETTER minimum size for touch targets */
+        height: clamp(
+            24px,
+            calc((100vw - 40px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
+            42px
         );
         
-        /* CRITICAL: Ensure minimum touch area */
-        min-width: 35px;
-        min-height: 35px;
-        max-width: 50px;
-        max-height: 50px;
-        
-        /* Enhanced touch handling */
-        touch-action: none; /* Prevent scrolling during selection */
-        -webkit-user-select: none;
-        user-select: none;
+        /* Ensure Apple HIG minimum (44px recommended, 24px acceptable) */
+        min-width: 24px;
+        min-height: 24px;
         
         border-radius: clamp(4px, 1vw, 8px);
         border-width: 2px;
         
-        /* Critical for mobile interaction */
+        /* Mobile touch optimization */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1111,10 +1121,9 @@ html, body {
         -webkit-user-select: none;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
-        cursor: pointer;
     }
     
-    /* Remove hover effects on mobile (they cause issues) */
+    /* Disable hover effects on mobile */
     .letter-cell:hover {
         transform: none;
     }
@@ -1122,14 +1131,26 @@ html, body {
     /* Canvas optimization */
     #selection-canvas {
         touch-action: none;
-        -webkit-user-select: none;
-        user-select: none;
         pointer-events: none;
     }
     
     /* =============================================== */
-    /* BUTTONS - APPLE HIG COMPLIANT TOUCH TARGETS   */
-    /* All buttons meet 44px minimum requirement     */
+    /* SIDEBAR - BELOW GRID                           */
+    /* =============================================== */
+    
+    .game-sidebar {
+        order: 2;
+        padding: 10px 8px;
+        width: 100%;
+    }
+    
+    .found-words-section {
+        max-height: 140px;
+        overflow-y: auto;
+    }
+    
+    /* =============================================== */
+    /* BUTTONS - TOUCH-FRIENDLY                       */
     /* =============================================== */
     
     .game-controls {
@@ -1137,81 +1158,19 @@ html, body {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
         padding: 8px 6px;
-        width: 100%;
-        box-sizing: border-box;
-        margin-top: 10px;
     }
     
     .btn {
-        font-size: 0.8rem;
-        padding: 12px 8px;
-        min-height: 50px; /* Better touch target */
+        font-size: 0.9rem;
+        padding: 12px 10px;
+        min-height: 48px;
         touch-action: manipulation;
         -webkit-tap-highlight-color: transparent;
-        font-weight: 600;
-        cursor: pointer;
-        white-space: nowrap;
-        overflow: hidden;
-        flex: 1; /* Equal width buttons */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        text-overflow: ellipsis;
-    }
-    
-    /* Mobile-specific button styles */
-    .btn-hint {
-        background: linear-gradient(135deg, #FF6B7A, #FF0A54);
-        color: white;
-        border: 2px solid #FF6B7A;
-    }
-    
-    .btn-share {
-        background: linear-gradient(135deg, #1da1f2, #0d8bd9);
-        color: white;
-        border: 2px solid #1da1f2;
     }
     
     .btn:active {
         transform: scale(0.97);
         opacity: 0.85;
-    }
-    
-    /* Hint button - more prominent */
-    .btn-secondary {
-        font-size: 0.95rem;
-        font-weight: 700;
-    }
-    
-    /* =============================================== */
-    /* SIDEBAR - MOVED BELOW GRID ON MOBILE          */
-    /* Provides more space for the game grid above    */
-    /* =============================================== */
-    
-    .game-sidebar {
-        padding: 10px 8px;
-        order: 2;
-        width: 100%;
-    }
-    
-    .progress-section, .found-words-section {
-        padding: 8px 6px;
-    }
-    
-    .found-words-section {
-        max-height: 120px;
-        overflow-y: auto;
-        margin-bottom: 8px;
-    }
-    
-    .progress-section {
-        margin-bottom: 6px;
-    }
-    
-    .word-pill {
-        font-size: 0.75rem;
-        padding: 5px 10px;
     }
 }
 
@@ -1266,36 +1225,26 @@ html, body {
         font-size: 1.4rem;
     }
     
-    /* Smaller grid spacing for compact phones */
+    /* Smaller cells for compact phones */
+    .letter-cell {
+        font-size: clamp(0.7rem, 2vw, 0.95rem);
+        width: clamp(
+            22px,
+            calc((100vw - 32px - (var(--grid-size, 10) - 1) * 2px) / var(--grid-size, 10)),
+            38px
+        );
+        height: clamp(
+            22px,
+            calc((100vw - 32px - (var(--grid-size, 10) - 1) * 2px) / var(--grid-size, 10)),
+            38px
+        );
+        min-width: 22px;
+        min-height: 22px;
+    }
+    
     .word-grid {
         gap: 2px;
         padding: 3px;
-        width: calc(100vw - 8px);
-        max-width: calc(100vw - 8px);
-    }
-    
-    .letter-cell {
-        font-size: clamp(0.8rem, 2.5vw, 1.1rem);
-        /* CRITICAL: Smaller cells to fit more on screen */
-        width: max(
-            calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
-            28px /* Smaller to fit screen */
-        );
-        height: max(
-            calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
-            28px /* Smaller to fit screen */
-        );
-        min-width: 28px;
-        min-height: 28px;
-        max-width: 40px;
-        max-height: 40px;
-        border-width: 1.5px;
-        border-radius: 4px;
-        
-        /* Enhanced touch handling for small screens */
-        touch-action: none;
-        -webkit-user-select: none;
-        user-select: none;
     }
     
     .game-controls {
@@ -2051,6 +2000,45 @@ html, body {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+/* ================================================== */
+/*  TABLET LANDSCAPE MODE                            */
+/* ================================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+    .game-main {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 15px;
+    }
+    
+    .grid-section {
+        order: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .game-sidebar {
+        order: 2;
+        max-height: calc(100vh - 180px);
+        overflow-y: auto;
+    }
+    
+    /* Grid sizing for landscape */
+    .word-grid {
+        max-width: min(calc(100vh - 220px), calc(100vw - 400px));
+        aspect-ratio: 1; /* Keep square on tablet landscape */
+    }
+    
+    .letter-cell {
+        font-size: 1rem;
+        min-width: 28px;
+        min-height: 28px;
+        max-width: 48px;
+        max-height: 48px;
     }
 }
 

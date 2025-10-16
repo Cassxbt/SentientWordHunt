@@ -74,17 +74,19 @@ class InputHandler {
         this.canvasDrawer.startDrawing(x, y);
     }
     
-    // Handle selection move with improved touch handling
+    // Handle selection move
     handleMove(event) {
         if (!this.isSelecting) return;
         
-        // Prevent default to avoid scrolling during selection
-        event.preventDefault();
-        
         const cell = this.getCellFromEvent(event);
+        
+        // If no cell detected, maintain current selection visual
         if (!cell) {
-            // If we can't find a cell, don't stop selection - allow continuation
-            return;
+            // Still draw canvas line even when not over a cell
+            if (this.selectedCells.length > 0) {
+                this.canvasDrawer.drawSelectedCells(this.selectedCells);
+            }
+            return; // Don't add/remove cells, just maintain visual
         }
         
         // Don't allow selecting already found cells
@@ -151,31 +153,31 @@ class InputHandler {
         this.currentCell = null;
     }
     
-    // Get cell element from event coordinates with improved accuracy
+    // Get cell element from event coordinates with stricter hit detection
     getCellFromEvent(event) {
-        // Extract coordinates properly for both mouse and touch events
+        // Extract coordinates properly for both mouse and touch
         const x = event.touches ? event.touches[0].clientX : (event.clientX || event.pageX);
         const y = event.touches ? event.touches[0].clientY : (event.clientY || event.pageY);
         
-        // Try to find the letter cell element
-        let element = document.elementFromPoint(x, y);
+        const element = document.elementFromPoint(x, y);
         
-        // If we didn't hit a letter cell directly, check if we're within a letter cell's bounds
-        if (!element || !element.classList.contains('letter-cell')) {
-            // Get all letter cells and check which one contains our coordinates
-            const letterCells = document.querySelectorAll('.letter-cell');
-            for (const cell of letterCells) {
-                const rect = cell.getBoundingClientRect();
-                if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-                    element = cell;
-                    break;
-                }
+        if (element && element.classList.contains('letter-cell')) {
+            // Stricter validation: Check if pointer is inside cell bounds
+            const rect = element.getBoundingClientRect();
+            const tolerance = 3; // 3px tolerance for edge cases
+            
+            const isInsideCell = (
+                x >= rect.left + tolerance &&
+                x <= rect.right - tolerance &&
+                y >= rect.top + tolerance &&
+                y <= rect.bottom - tolerance
+            );
+            
+            if (isInsideCell) {
+                return element;
             }
         }
         
-        if (element && element.classList.contains('letter-cell')) {
-            return element;
-        }
         return null;
     }
     
