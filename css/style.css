@@ -353,15 +353,12 @@ html, body {
 }
 
 /* ===== WORD GRID ===== */
-/* Desktop only - mobile styles are in media queries below */
-@media (min-width: 769px) {
-    .word-grid {
-        display: grid;
-        /* grid-template-columns set dynamically by JavaScript based on level */
-        gap: 6px;
-        max-width: 650px;
-        aspect-ratio: 1;
-    }
+.word-grid {
+    display: grid;
+    /* grid-template-columns set dynamically by JavaScript based on level */
+    gap: 6px;
+    max-width: 650px;
+    aspect-ratio: 1;
 }
 
 .letter-cell {
