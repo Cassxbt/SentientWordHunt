@@ -1489,6 +1489,41 @@ html, body {
     }
 }
 
+/* ===== RESPONSIVE OPTIMIZATION ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem 0.8rem;
+    }
+    
+    h1 {
+        font-size: clamp(1.4rem, 5vw, 2rem);
+    }
+    
+    .word-grid {
+        gap: 0.5rem;
+    }
+    
+    .letter-cell {
+        /* Use existing responsive calculation but make cells smaller */
+        width: calc((100vw - 60px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10) - 5px);
+        height: calc((100vw - 60px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10) - 5px);
+        font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .letter-cell {
+        /* Even smaller cells for very small screens */
+        width: calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10) - 8px);
+        height: calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10) - 8px);
+        font-size: clamp(0.8rem, 4vw, 0.9rem);
+    }
+    
+    h1 {
+        margin-bottom: 0.8rem;
+    }
+}
+
 /* ===== TIMER & LEVEL DISPLAY ===== */
 .header-right {
     display: flex;
