@@ -950,7 +950,7 @@ html, body {
     
     /* Base container - minimal padding for max space */
     .game-container {
-        padding: 6px 4px;
+        padding: 2px;
         max-width: 100vw;
         min-height: 100vh;
         overflow-x: hidden;
@@ -962,9 +962,9 @@ html, body {
     
     /* Compact header to maximize game space */
     .game-header {
-        padding: 8px 6px;
+        padding: 4px 2px;
         flex-direction: column;
-        gap: 6px;
+        gap: 4px;
     }
     
     .header-content {
@@ -1032,15 +1032,15 @@ html, body {
     /* =============================================== */
     
     .game-main {
-        gap: 8px;
+        gap: 4px;
         flex-direction: column;
     }
     
     .game-board {
-        padding: 4px 2px;
+        padding: 2px;
         width: 100%;
         max-width: 100vw;
-        max-height: calc(100vh - 180px); /* CRITICAL: More space for grid */
+        max-height: calc(100vh - 160px); /* More space for grid */
         overflow-x: auto;
         overflow-y: auto;
         order: 1;
@@ -1050,8 +1050,8 @@ html, body {
     
     .word-grid {
         /* Dynamic cell sizing with smart overflow handling */
-        gap: clamp(2px, 0.5vw, 4px);
-        padding: 4px;
+        gap: clamp(1px, 0.3vw, 3px);
+        padding: 2px;
         /* Let grid be as wide as needed, but ensure minimum cell size */
         width: max-content;
         min-width: 100%;
@@ -1068,22 +1068,22 @@ html, body {
         /* PROFESSIONAL SIZING: Ensure cells are always touchable */
         width: max(
             min(
-                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10)),
+                calc((100vw - 20px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
                 50px /* Maximum size */
             ),
-            35px /* MUCH BETTER minimum size for touch targets */
+            30px /* Better minimum size for touch targets */
         );
         height: max(
             min(
-                calc((100vw - 40px - (var(--grid-size, 10) - 1) * 6px) / var(--grid-size, 10)),
+                calc((100vw - 20px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
                 50px /* Maximum size */
             ),
-            35px /* MUCH BETTER minimum size for touch targets */
+            30px /* Better minimum size for touch targets */
         );
         
         /* CRITICAL: Ensure minimum touch area */
-        min-width: 35px;
-        min-height: 35px;
+        min-width: 30px;
+        min-height: 30px;
         max-width: 50px;
         max-height: 50px;
         
@@ -1213,11 +1213,11 @@ html, body {
 
 @media (max-width: 480px) {
     .game-container {
-        padding: 4px 2px;
+        padding: 1px;
     }
     
     .game-header {
-        padding: 6px 4px;
+        padding: 2px 1px;
     }
     
     .brand-section {
@@ -1260,25 +1260,25 @@ html, body {
     
     /* Smaller grid spacing for compact phones */
     .word-grid {
-        gap: 2px;
-        padding: 3px;
-        width: calc(100vw - 8px);
-        max-width: calc(100vw - 8px);
+        gap: 1px;
+        padding: 1px;
+        width: calc(100vw - 4px);
+        max-width: calc(100vw - 4px);
     }
     
     .letter-cell {
         font-size: clamp(0.8rem, 2.5vw, 1.1rem);
         /* CRITICAL: Smaller cells to fit more on screen */
         width: max(
-            calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
-            28px /* Smaller to fit screen */
+            calc((100vw - 10px - (var(--grid-size, 10) - 1) * 1px) / var(--grid-size, 10)),
+            25px /* Smaller to fit screen */
         );
         height: max(
-            calc((100vw - 28px - (var(--grid-size, 10) - 1) * 3px) / var(--grid-size, 10)),
-            28px /* Smaller to fit screen */
+            calc((100vw - 10px - (var(--grid-size, 10) - 1) * 1px) / var(--grid-size, 10)),
+            25px /* Smaller to fit screen */
         );
-        min-width: 28px;
-        min-height: 28px;
+        min-width: 25px;
+        min-height: 25px;
         max-width: 40px;
         max-height: 40px;
         border-width: 1.5px;
